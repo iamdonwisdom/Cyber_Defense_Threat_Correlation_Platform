@@ -18,26 +18,28 @@
 
 <main>
 
+    <!-- Dashboard Statistics -->
     <div class="card">
-        <h2>System Status</h2>
-        <p>{{ stats.total_logs }} Total Logs</p>
+        <h2>Total Logs</h2>
+        <p>{{ stats.total_logs }}</p>
     </div>
 
     <div class="card">
-        <h2>Database</h2>
-        <p>{{ stats.warnings }} Warnings</p>
+        <h2>Warnings</h2>
+        <p>{{ stats.warnings }}</p>
     </div>
 
     <div class="card">
-        <h2>Alerts</h2>
-        <p>{{ stats.errors }} Errors</p>
+        <h2>Errors</h2>
+        <p>{{ stats.errors }}</p>
     </div>
 
     <div class="card">
-        <h2>Logs</h2>
-        <p>{{ stats.total_logs }} Logs Ingested</p>
+        <h2>Logs Ingested</h2>
+        <p>{{ stats.total_logs }}</p>
     </div>
 
+    <!-- Recent Events -->
     <div class="logs-section">
 
         <h2>Recent Security Events</h2>
@@ -55,8 +57,9 @@
 
             <tbody>
 
-                {% for log in logs %}
+            {% for log in logs %}
                 <tr>
+
                     <td>{{ log.timestamp }}</td>
 
                     <td>
@@ -70,9 +73,47 @@
                     <td>{{ log.raw_log }}</td>
 
                 </tr>
-                {% endfor %}
+            {% endfor %}
 
             </tbody>
+</table>
+
+{% if iocs %}
+
+<hr>
+
+<h2>Extracted Indicators of Compromise (IOCs)</h2>
+
+<table class="log-table">
+
+    <thead>
+        <tr>
+            <th>IOC Type</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for ioc in iocs %}
+        <tr>
+            <td>{{ ioc.type }}</td>
+            <td>{{ ioc.value }}</td>
+        </tr>
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endif %}
+
+</div>
+
+</main>
+
+</body>
+</html>
 
         </table>
 
@@ -81,4 +122,5 @@
 </main>
 
 </body>
+
 </html>

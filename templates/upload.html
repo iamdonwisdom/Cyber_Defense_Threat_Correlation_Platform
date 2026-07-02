@@ -21,24 +21,25 @@
 
 <form action="/upload" method="POST" enctype="multipart/form-data">
 
-<input type="file" name="logfile" required>
+    <input type="file" name="logfile" required>
 
-<br><br>
+    <br><br>
 
-<button type="submit">
-    Upload Log
-</button>
+    <button type="submit">
+        Upload Log
+    </button>
 
 </form>
 
-<!-- ADD THE CODE BELOW HERE -->
-
 {% if filename %}
+
 <hr>
 
 <h2>Uploaded File</h2>
 
 <p>{{ filename }}</p>
+
+<hr>
 
 <h2>Parsed Logs</h2>
 
@@ -48,9 +49,77 @@
 {% endfor %}
 </ul>
 
+<hr>
+
+<h2>Detected Security Alerts</h2>
+
+{% if alerts %}
+
+<table class="log-table">
+
+    <thead>
+        <tr>
+            <th>Severity</th>
+            <th>Alert Type</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for alert in alerts %}
+        <tr>
+            <td>{{ alert.severity }}</td>
+            <td>{{ alert.type }}</td>
+            <td>{{ alert.message }}</td>
+        </tr>
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% else %}
+
+<p>No security alerts detected.</p>
+
 {% endif %}
 
-<!-- END OF ADDED CODE -->
+<hr>
+
+<h2>Extracted Indicators of Compromise (IOCs)</h2>
+
+{% if iocs %}
+
+<table class="log-table">
+
+    <thead>
+        <tr>
+            <th>IOC Type</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for ioc in iocs %}
+        <tr>
+            <td>{{ ioc.type }}</td>
+            <td>{{ ioc.value }}</td>
+        </tr>
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% else %}
+
+<p>No Indicators of Compromise found.</p>
+
+{% endif %}
+
+{% endif %}
 
 </div>
 

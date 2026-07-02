@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 import os
@@ -9,7 +8,10 @@ from modules.database import (
     get_dashboard_stats,
     get_recent_logs
 )
+
 from modules.log_parser import parse_log
+from modules.detection.detection_engine import DetectionEngine
+from modules.ioc.ioc_extractor import IOCExtractor
 
 app = Flask(__name__)
 
@@ -33,9 +35,9 @@ def dashboard():
     )
 
 
-
 @app.route("/upload", methods=["GET", "POST"])
 def upload_page():
+
     if request.method == "POST":
 
         if "logfile" not in request.files:
@@ -48,20 +50,34 @@ def upload_page():
 
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+
         file.save(filepath)
 
+        # Parse uploaded log file
         logs = parse_log(filepath)
 
+        # Save logs into database
         for log in logs:
             save_log(log)
 
+        # Run Detection Engine
+        detector = DetectionEngine()
+        alerts = detector.analyze_logs(logs)
+
+        # Extract Indicators of Compromise (IOCs)
+        extractor = IOCExtractor()
+        iocs = extractor.extract(logs)
+
+        # Dashboard statistics
         stats = get_dashboard_stats()
 
         return render_template(
             "upload.html",
             logs=logs,
             filename=filename,
-            stats=stats
+            stats=stats,
+            alerts=alerts,
+            iocs=iocs
         )
 
     return render_template("upload.html")
