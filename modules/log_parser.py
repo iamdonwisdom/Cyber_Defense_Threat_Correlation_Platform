@@ -19,3 +19,4 @@ def parse_log(file_path):
                 logs.append(line)
 
     return logs
+

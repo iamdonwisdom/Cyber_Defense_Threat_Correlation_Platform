@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,25 +18,65 @@
 
 <main>
 
-<div class="card">
-    <h2>System Status</h2>
-    <p>Platform Initialized Successfully</p>
-</div>
+    <div class="card">
+        <h2>System Status</h2>
+        <p>{{ stats.total_logs }} Total Logs</p>
+    </div>
 
-<div class="card">
-    <h2>Database</h2>
-    <p>Connected</p>
-</div>
+    <div class="card">
+        <h2>Database</h2>
+        <p>{{ stats.warnings }} Warnings</p>
+    </div>
 
-<div class="card">
-    <h2>Alerts</h2>
-    <p>0 Active Alerts</p>
-</div>
+    <div class="card">
+        <h2>Alerts</h2>
+        <p>{{ stats.errors }} Errors</p>
+    </div>
 
-<div class="card">
-    <h2>Logs</h2>
-    <p>0 Logs Ingested</p>
-</div>
+    <div class="card">
+        <h2>Logs</h2>
+        <p>{{ stats.total_logs }} Logs Ingested</p>
+    </div>
+
+    <div class="logs-section">
+
+        <h2>Recent Security Events</h2>
+
+        <table class="log-table">
+
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Severity</th>
+                    <th>Source</th>
+                    <th>Event</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log.timestamp }}</td>
+
+                    <td>
+                        <span class="{{ log.severity|lower }}">
+                            {{ log.severity }}
+                        </span>
+                    </td>
+
+                    <td>{{ log.source }}</td>
+
+                    <td>{{ log.raw_log }}</td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
 
 </main>
 
