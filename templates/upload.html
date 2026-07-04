@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Logs</title>
+    <title>Upload Security Log</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
@@ -12,24 +12,33 @@
 <body>
 
 <header>
-    <h1>Upload Security Log</h1>
+    <h1>Cyber Defense & Threat Correlation Platform</h1>
+    <p>Upload Security Log for Analysis</p>
 </header>
 
 <main>
 
 <div class="card">
 
-<form action="/upload" method="POST" enctype="multipart/form-data">
+    <h2>Upload Log File</h2>
 
-    <input type="file" name="logfile" required>
+    <form method="POST" enctype="multipart/form-data">
 
-    <br><br>
+        <input
+            type="file"
+            name="logfile"
+            accept=".log,.txt,.csv"
+            required>
 
-    <button type="submit">
-        Upload Log
-    </button>
+        <br><br>
 
-</form>
+        <button type="submit" class="btn">
+            Upload & Analyze
+        </button>
+
+    </form>
+
+</div>
 
 {% if filename %}
 
@@ -39,91 +48,171 @@
 
 <p>{{ filename }}</p>
 
-<hr>
-
-<h2>Parsed Logs</h2>
-
-<ul>
-{% for log in logs %}
-    <li>{{ log }}</li>
-{% endfor %}
-</ul>
-
-<hr>
-
-<h2>Detected Security Alerts</h2>
+{% endif %}
 
 {% if alerts %}
 
+<div class="logs-section">
+
+<h2>Detection Alerts</h2>
+
 <table class="log-table">
 
-    <thead>
-        <tr>
-            <th>Severity</th>
-            <th>Alert Type</th>
-            <th>Message</th>
-        </tr>
-    </thead>
+<thead>
+<tr>
+<th>Alert</th>
+</tr>
+</thead>
 
-    <tbody>
+<tbody>
 
-    {% for alert in alerts %}
-        <tr>
-            <td>{{ alert.severity }}</td>
-            <td>{{ alert.type }}</td>
-            <td>{{ alert.message }}</td>
-        </tr>
-    {% endfor %}
+{% for alert in alerts %}
 
-    </tbody>
+<tr>
+<td>{{ alert }}</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
 
 </table>
 
-{% else %}
-
-<p>No security alerts detected.</p>
+</div>
 
 {% endif %}
-
-<hr>
-
-<h2>Extracted Indicators of Compromise (IOCs)</h2>
 
 {% if iocs %}
 
+<div class="logs-section">
+
+<h2>Indicators of Compromise (IOCs)</h2>
+
 <table class="log-table">
 
-    <thead>
-        <tr>
-            <th>IOC Type</th>
-            <th>Value</th>
-        </tr>
-    </thead>
+<thead>
+<tr>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
 
-    <tbody>
+<tbody>
 
-    {% for ioc in iocs %}
-        <tr>
-            <td>{{ ioc.type }}</td>
-            <td>{{ ioc.value }}</td>
-        </tr>
-    {% endfor %}
+{% for ioc in iocs %}
 
-    </tbody>
+<tr>
+<td>{{ ioc.type }}</td>
+<td>{{ ioc.value }}</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
 
 </table>
 
-{% else %}
-
-<p>No Indicators of Compromise found.</p>
+</div>
 
 {% endif %}
 
-{% endif %}
+{% if threat_results %}
+
+<div class="logs-section">
+
+<h2>Threat Intelligence Results</h2>
+
+<table class="log-table">
+
+<thead>
+<tr>
+<th>IOC</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for item in threat_results %}
+
+<tr>
+<td>{{ item.ioc }}</td>
+<td>{{ item.status }}</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
 
 </div>
+
+{% endif %}
+
+{% if mitre_results %}
+
+<div class="logs-section">
+
+<h2>MITRE ATT&CK Mapping</h2>
+
+<table class="log-table">
+
+<thead>
+<tr>
+<th>Alert</th>
+<th>Technique ID</th>
+<th>Technique</th>
+<th>Tactic</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for item in mitre_results %}
+
+<tr>
+<td>{{ item.alert }}</td>
+<td>{{ item.technique_id }}</td>
+<td>{{ item.technique }}</td>
+<td>{{ item.tactic }}</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endif %}
+
+<br>
+
+<a href="/" class="btn">← Back to Dashboard</a>
+
+<!-- Download Reports -->
+
+{% if csv_report %}
+<a href="{{ url_for('download_report', filename=csv_report) }}" class="btn">
+    📊 Download CSV Report
+</a>
+{% endif %}
+
+{% if pdf_report %}
+<a href="{{ url_for('download_report', filename=pdf_report) }}" class="btn">
+    📄 Download PDF Report
+</a>
+{% endif %}
 
 </main>
 
 </body>
 </html>
+</main>
+
+</body>
+
+</html>
+

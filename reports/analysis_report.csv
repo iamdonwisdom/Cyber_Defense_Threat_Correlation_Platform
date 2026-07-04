@@ -1,0 +1,29 @@
+Cyber Defense & Threat Correlation Platform
+SIEM Analysis Report
+
+Logs
+Timestamp,Severity,Source,Event
+,,Uploaded File,2026-07-02 09:00:11 INFO User admin logged in successfully
+,,Uploaded File,2026-07-02 09:01:05 WARNING Failed login attempt from 192.168.1.10
+,,Uploaded File,2026-07-02 09:01:11 WARNING Failed login attempt from 192.168.1.10
+,,Uploaded File,2026-07-02 09:01:18 WARNING Failed login attempt from 192.168.1.10
+,,Uploaded File,2026-07-02 09:02:30 ERROR Possible brute-force attack detected
+
+Detection Alerts
+Severity,Type,Message
+High,Failed Login,2026-07-02 09:01:05 WARNING Failed login attempt from 192.168.1.10
+High,Failed Login,2026-07-02 09:01:11 WARNING Failed login attempt from 192.168.1.10
+High,Failed Login,2026-07-02 09:01:18 WARNING Failed login attempt from 192.168.1.10
+Critical,Brute Force,2026-07-02 09:02:30 ERROR Possible brute-force attack detected
+Medium,System Error,2026-07-02 09:02:30 ERROR Possible brute-force attack detected
+
+Indicators of Compromise
+Type,Value
+
+MITRE ATT&CK Mapping
+Alert,Technique ID,Technique,Tactic
+Failed Login,T1110,Brute Force,Credential Access
+Failed Login,T1110,Brute Force,Credential Access
+Failed Login,T1110,Brute Force,Credential Access
+Brute Force,T1110,Brute Force,Credential Access
+System Error,T1499,Endpoint Denial of Service,Impact

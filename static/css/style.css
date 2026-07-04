@@ -118,3 +118,19 @@ grid-template-columns:1fr;
 }
 
 }
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #00c853;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #ffffff;
+}
+
+.btn:hover {
+    background-color: #00a844;
+}

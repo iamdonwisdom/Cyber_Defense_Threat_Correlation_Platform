@@ -29,4 +29,6 @@ class IOCExtractor:
                     "value": h
                 })
 
+            return iocs
+
 
